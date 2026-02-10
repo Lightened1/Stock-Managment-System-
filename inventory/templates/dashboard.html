@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Dashboard - Nano ICT Solutions{% endblock %}
+
+{% block content %}
+<style>
+    /* Add CSS for the body content */
+    .dashboard-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative; /* Set the container as relative for absolute positioning */
+    }
+
+    .header-content {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin-bottom: 15px;
+        text-align: center; /* Center align the text */
+    }
+
+    .header-content h2 {
+        margin: 0;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    .sell-product-btn {
+        display: block;
+        width: fit-content;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 15px;
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .sell-product-btn:hover {
+        background-color: #218838;
+    }
+
+    .alert-message {
+        background-color: #f44336; /* Red color for warning */
+        color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="header-content">
+        <h2>Dashboard </h2>
+    </div>
+
+    <p>Total Stock Items: {{ total_stock_items }}</p>
+    <p>Total Price of Stock: {{ total_price }}</p>
+
+    <a href="{% url 'sell_product' %}" class="sell-product-btn">Sell Product</a>
+
+    {% if low_stock_products %}
+        <h3>Products Running Out of Stock:</h3>
+        <ul>
+            {% for product in low_stock_products %}
+                <li>{{ product.product_name }} - Quantity: {{ product.quantity }}</li>
+            {% endfor %}
+        </ul>
+        <div class="alert-message">
+            <p>Warning: Some products are running low on stock!</p>
+        </div>
+    {% else %}
+        <p>All products are well-stocked.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

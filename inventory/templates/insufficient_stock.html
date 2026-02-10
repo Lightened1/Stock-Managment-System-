@@ -1,0 +1,67 @@
+<!-- insufficient_stock.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="error-message">
+        <h2>Insufficient Stock</h2>
+        <p>We're sorry, there is insufficient stock for the following items:</p>
+        <ul>
+            {% for item in insufficient_items %}
+                <li>{{ item.product_name }} - Available: {{ item.quantity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-message {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .error-message h2 {
+        color: #e74c3c;
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .error-message p {
+        color: #333;
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .error-message ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .error-message li {
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-message li:hover {
+        background-color: #e9e9e9;
+    }
+</style>
+{% endblock %}

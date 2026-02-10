@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Batch Sale - Nano ICT Solutions{% endblock %}
+
+{% block content %}
+
+<style>
+    form {
+        margin: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    button {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    input[type="number"] {
+        width: 80px; /* Adjust the width here to make it medium */
+    }
+
+    button {
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        margin-bottom: 10px;
+    }
+</style>
+
+<h2 style="text-align: center;">Batch Sale</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="company_name">Customer Name:</label>
+    <input type="text" name="company_name" id="company_name" required>
+    <label for="days_valid">Quote Validity Period:</label>
+    <input type="number" name="days_valid" id="days_valid" min="1" required>
+    <select name="days_valid_unit" id="days_valid_unit">
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="years">Years</option>
+    </select>
+
+
+    <h3>Choose products and specify quantities for batch sale:</h3>
+    <ul>
+        {% for product in products %}
+            <li>
+                <label for="quantity_{{ product.id }}">{{ product.product_name }} ({{ product.price_per_unit }} per unit)</label>
+                <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" min="0">
+            </li>
+        {% endfor %}
+    </ul>
+    <button type="submit">Submit Batch Sale</button>
+</form>
+
+{% endblock %}

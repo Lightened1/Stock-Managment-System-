@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Summary</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .print-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .stamp-image {
+            max-width: 200px;
+            max-height: 200px;
+            transform: rotate(-10deg); /* Rotate the image to tilt it */
+            margin-left: 10px; /* Adjust the margin to move the image to the right */
+        }
+
+        .contact-info {
+            position: relative;
+        }
+
+        .stamp-text {
+            display: inline-block;
+        }
+
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <div>
+        <img src="{% static 'img/1.png' %}" alt="Image 1" style="max-width: 200px; max-height: 200px;">
+        <div>
+            <p>Contact person: Dawit Seleshi</p>
+            <p>Contact number: +251923787878</p>
+            <p>Email: <a href="mailto:nanocomputing777@gmail.com">nanocomputing777@gmail.com</a></p>
+        </div>
+        <div style="float: right; text-align: right;">
+            <p>RFQ Date: ________</p>
+            <p>RFQ Number: ________</p>
+        </div>
+    </div>
+
+    <h2>Sales Summary</h2>
+    <h3>Customer Name: {{ company_name }}</h3>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Unit</th>
+                <th>Qty</th>
+                <th>Price per Unit</th>
+                <th>All Price Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in selected_items %}
+            <tr>
+                <td>{{ item.product.product_name }}</td>
+                <td>{{ item.product.unit }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price_per_unit }}ETB</td>
+                <td>{{ item.subtotal }}ETB</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4">Total Price (excl. VAT)</td>
+                <td>{{ total_price }}ETB</td>
+            </tr>
+            <tr>
+                <td colspan="4">VAT (15%)</td>
+                <td>{{ vat }}ETB</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Total Price (incl. VAT)</strong></td>
+                <td><strong>{{ total_price_incl_vat }}ETB</strong></td>
+            </tr> 
+        </tbody>
+    </table>
+
+    <div class="contact-info">
+        <p>Days Quote is valid: {{ days_valid }} {{ days_valid_unit }}</p>
+        <p>Payment Schedule: ________</p>
+        <p>Supplier Stamp: 
+            <img src="{% static 'img/Stamp.jpg' %}" alt="Supplier Stamp" class="stamp-image">
+        </p>
+    </div>
+
+    <div class="company-info">
+        <div>
+            <p>Company Address: BOLE ROAD ABERUS BUILDING 1st FLOOR</p>
+            <p>Office number: 118544303</p>
+            <p>Contact signature:________</p>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">Print Summary</button>
+</body>
+</html>

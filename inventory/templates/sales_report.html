@@ -1,0 +1,72 @@
+<!-- sales_report.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Sales Report - My Website{% endblock %}
+
+{% block content %}
+    <style>
+        /* Container for the product boxes */
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center items horizontally */
+        }
+
+        /* Style for the product boxes */
+        .product-box {
+            background-color: #f9f9f9; /* Background color */
+            border: 1px solid #ddd; /* Border style */
+            padding: 10px; /* Padding inside the box */
+            margin: 10px; /* Margin around the box */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+            max-width: 200px; /* Limit maximum width of each box */
+        }
+
+        /* Style for the product name */
+        .product-name {
+            font-weight: bold;
+            color: #333; /* Text color */
+        }
+
+        /* Style for the quantity sold */
+        .quantity-sold {
+            color: #666; /* Text color */
+        }
+    </style>
+
+    <h1>Sales Report</h1>
+
+
+    <h2>Product Sales:</h2>
+    <div class="product-container">
+        {% for sale in product_sales %}
+            <div class="product-box">
+                <div class="product-name">Product: {{ sale.product_name }}</div>
+                <div class="quantity-sold">Quantity Sold: {{ sale.total_sold }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h2>Unsold Products:</h2>
+    <div class="product-container">
+        {% for product in unsold_products %}
+            <div class="product-box">
+                <div class="product-name">{{ product.product_name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if most_sold_product %}
+        <h2>Most Sold Product:</h2>
+        <div class="product-container">
+            <div class="product-box">
+                <div class="product-name">{{ most_sold_product.product_name }}</div>
+            </div>
+        </div>
+    {% else %}
+        <p>No products have been sold yet.</p>
+    {% endif %}
+
+{% endblock %}

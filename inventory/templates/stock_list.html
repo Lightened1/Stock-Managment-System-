@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Stock List - Nano ICT Solutions{% endblock %}
+
+{% block content %}
+
+<div class="stock-list">
+    <h2>Stock List</h2>
+
+    
+    <style> 
+    .stock-table { width: 100%; border-collapse: collapse; }
+    .stock-table th,
+    .stock-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .stock-table th {
+        background-color: #f2f2f2;
+    }
+
+    .green-button {
+        background-color: green;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .red-button {
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+<div class="filter-options">
+    <label for="computer-checkbox">Computer Accessories</label>
+    <input type="checkbox" id="computer-checkbox" class="filter-checkbox" data-type="computer_accessory">
+
+    <label for="security-checkbox">Security Accessories</label>
+    <input type="checkbox" id="security-checkbox" class="filter-checkbox" data-type="security_accessory">
+</div>
+
+<table class="stock-table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Price per Unit</th>
+            <th>Total Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock_item in stock_items %}
+            <tr data-item-id="{{ stock_item.id }}">
+                <td>{{ stock_item.product_name }}</td>
+                <td>{{ stock_item.quantity }}</td>
+                <td>{{ stock_item.unit }}</td>
+                <td>{{ stock_item.price_per_unit }}</td>
+                <td>{{ stock_item.total_price }}</td>
+                <td class="action-col">
+                    <button class="delete-button red-button hidden">Delete</button>
+                </td>
+                <td class="type hidden">{{ stock_item.type }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<button class="delete-items-main-button red-button">Delete</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".filter-checkbox").change(function() {
+            var computerChecked = $("#computer-checkbox").is(":checked");
+            var securityChecked = $("#security-checkbox").is(":checked");
+    
+            $(".stock-table tbody tr").each(function() {
+                var type = $(this).find(".type").text();
+    
+                // Check if the item type matches the selected checkbox
+                if ((computerChecked && type === "computer_accessory") || (securityChecked && type === "security_accessory")) {
+                    $(this).show(); // Show the item if it matches the filter
+                } else {
+                    $(this).hide(); // Hide the item if it doesn't match
+                }
+            });
+        });
+    
+        $(".delete-items-main-button").click(function() {
+            $(".delete-button").toggleClass("hidden");
+        });
+    
+        $(".delete-button").click(function() {
+            var row = $(this).closest("tr");
+            var itemId = row.data("item-id");
+    
+            // Send an AJAX request to delete the item
+            $.ajax({
+                type: "POST",
+                url: "{% url 'delete_stock_item' %}",
+                data: {
+                    item_id: itemId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        row.remove();
+                        updateNetPrice(); // Update net price after deletion
+                    } else {
+                        alert("Failed to delete item.");
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    alert("Error deleting item.");
+                }
+            });
+        });
+    });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nano ICT Solutions{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        .delete-button {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            float: right;
+            margin-top: 5px;
+        }
+
+        .company-logo {
+            width: 50px; /* Increase the size of the logo */
+            margin-right: 10px; /* Add some right margin */
+        }
+
+        .header {
+            background-color: #000; /* Change to black */
+            color: #fff; /* Text color for the header content */
+            text-align: center;
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links {
+            text-align: center;
+            background-color: #007bff; /* Extend blue background to cover navigation links */
+            padding: 5px 0;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links ul li {
+            display: inline;
+            margin: 0 5px;
+        }
+
+        .nav-links ul li a {
+            text-decoration: none;
+            color: #fff; /* White text color for navigation links */
+            font-weight: bold;
+            padding: 5px 15px; /* Increased padding for better aesthetics */
+            border-radius: 20px; /* Rounded corners for a unique look */
+            background-color: #0056b3; /* Darker blue background color */
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+        }
+
+        .nav-links ul li a:hover {
+            background-color: #003366; /* Darker blue on hover */
+        }
+
+        /* Common style for block title */
+        .block-title {
+            font-size: 20px; /* Increase font size for the title */
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <img src="{% static 'img/wite loo.png' %}" alt="Company Logo" class="company-logo">
+            <h1 class="block-title">Nano ICT Solutions</h1>
+        </div>
+    </header>
+    <div class="nav-links">
+        <ul>
+            <li><a href="{% url 'dashboard' %}"> Dashboard</a></li>
+            <li><a href="{% url 'stock_list' %}">Stock List</a></li>
+            <li><a href="{% url 'add_stock_item' %}">Add a Stock Item</a></li>
+            <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+        </ul>
+    </div>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        &copy; {{ year }} Nano ICT Solutions
+    </footer>
+</body>
+</html>

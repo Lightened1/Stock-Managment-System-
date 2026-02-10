@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Item to Delete</title>
+</head>
+<body>
+    <h1>Select Item to Delete</h1>
+    <form method="post" action="{% url 'delete_selected_item' %}">
+        {% csrf_token %}
+        <select name="item_id">
+            {% for item in items_to_delete %}
+                <option value="{{ item.id }}">{{ item.product_name }} - {{ item.price_per_unit }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Delete Selected Item</button>
+    </form>
+</body>
+</html>

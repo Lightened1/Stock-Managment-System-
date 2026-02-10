@@ -1,0 +1,81 @@
+<!-- add_stock_item.html -->
+{% extends 'base.html' %}
+
+{% block title %}Add Stock Item - Nano ICT Solutions{% endblock %}
+
+{% load static %}  <!-- Load the static template tag -->
+
+{% block content %}
+<div class="container">
+    <div class="add-stock-item-form">
+        <h2>Add Stock Item</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="ITEM_TYPES">Item Type:</label>
+            <select id="ITEM_TYPES" name="ITEM_TYPES">
+                <option value="computer_accessory">Computer Accessory</option>
+                <option value="security_accessory">Security Accessory</option>
+            </select>
+            <br><br>
+            {{ form.as_p }}
+            <button type="submit">Add Stock Item</button>
+        </form>
+    </div>
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-stock-item-form {
+        text-align: center;
+    }
+
+    .add-stock-item-form h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .add-stock-item-form form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .add-stock-item-form form input[type="text"],
+    .add-stock-item-form form input[type="number"],
+    .add-stock-item-form form button,
+    .add-stock-item-form form select {
+        padding: 10px;
+        margin: 5px;
+        width: 80%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .add-stock-item-form form button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .add-stock-item-form form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> <!-- Link to your external CSS file -->
+{% endblock %}
